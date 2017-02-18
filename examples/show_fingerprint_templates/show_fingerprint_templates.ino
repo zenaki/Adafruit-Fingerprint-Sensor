@@ -1,36 +1,37 @@
-/*************************************************** 
+/***************************************************
   This is an example sketch for our optical Fingerprint sensor
 
-  Adafruit invests time and resources providing this open source code, 
-  please support Adafruit and open-source hardware by purchasing 
+  Adafruit invests time and resources providing this open source code,
+  please support Adafruit and open-source hardware by purchasing
   products from Adafruit!
 
-  Written by Limor Fried/Ladyada for Adafruit Industries.  
+  Written by Limor Fried/Ladyada for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
 
 #include <Adafruit_Fingerprint.h>
-#include <SoftwareSerial.h>
+// #include <SoftwareSerial.h>
 
 int getFingerprintIDez();
 
 // pin #2 is IN from sensor (GREEN wire)
 // pin #3 is OUT from arduino  (WHITE wire)
-SoftwareSerial mySerial(2, 3);
+// SoftwareSerial mySerial(2, 3);
 
 
-Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
+Adafruit_Fingerprint finger = Adafruit_Fingerprint();
 
-void setup()  
+void setup()
 {
   while(!Serial);
   Serial.begin(9600);
   Serial.println("finger template test");
 
   // set the data rate for the sensor serial port
-  finger.begin(57600);
-  
+  // finger.begin(57600);
+  Serial1.begin(57600);
+
   if (finger.verifyPassword()) {
     Serial.println("Found fingerprint sensor!");
   } else {
@@ -75,7 +76,7 @@ uint8_t uploadFingerpintTemplate(uint16_t id)
       Serial.print("Unknown error "); Serial.println(p);
       return p;
   }
-  
+
   uint8_t templateBuffer[256];
   memset(templateBuffer, 0xff, 256);  //zero out template buffer
   int index=0;
@@ -88,9 +89,9 @@ uint8_t uploadFingerpintTemplate(uint16_t id)
       index++;
     }
   }
-  
+
   Serial.print(index); Serial.println(" bytes read");
-  
+
   //dump entire templateBuffer.  This prints out 16 lines of 16 bytes
   for (int count= 0; count < 16; count++)
   {
@@ -103,5 +104,3 @@ uint8_t uploadFingerpintTemplate(uint16_t id)
     Serial.println();
   }
 }
-
-

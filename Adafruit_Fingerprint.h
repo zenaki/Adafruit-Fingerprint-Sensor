@@ -1,26 +1,27 @@
-/*************************************************** 
+/***************************************************
   This is a library for our optical Fingerprint sensor
 
   Designed specifically to work with the Adafruit Fingerprint sensor
   ----> http://www.adafruit.com/products/751
 
-  These displays use TTL Serial to communicate, 2 pins are required to 
+  These displays use TTL Serial to communicate, 2 pins are required to
   interface
-  Adafruit invests time and resources providing this open source code, 
-  please support Adafruit and open-source hardware by purchasing 
+  Adafruit invests time and resources providing this open source code,
+  please support Adafruit and open-source hardware by purchasing
   products from Adafruit!
 
-  Written by Limor Fried/Ladyada for Adafruit Industries.  
+  Written by Limor Fried/Ladyada for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
- #include <SoftwareSerial.h>
-#else
- #include "WProgram.h"
- #include <NewSoftSerial.h>
-#endif
+// #if (ARDUINO >= 100)
+ #include <Arduino.h>
+//  // #include <SoftwareSerial.h>
+//  #include <AltSoftSerial.h>
+// #else
+//  #include "WProgram.h"
+//  #include <NewSoftSerial.h>
+// #endif
 
 
 #define FINGERPRINT_OK 0x00
@@ -68,19 +69,20 @@
 #define FINGERPRINT_HISPEEDSEARCH 0x1B
 #define FINGERPRINT_TEMPLATECOUNT 0x1D
 
-//#define FINGERPRINT_DEBUG 
+// #define FINGERPRINT_DEBUG
 
 #define DEFAULTTIMEOUT 5000  // milliseconds
 
 
 class Adafruit_Fingerprint {
  public:
-#if ARDUINO >= 100
-  Adafruit_Fingerprint(SoftwareSerial *);
-#else
-  Adafruit_Fingerprint(NewSoftSerial *);
-#endif
-  void begin(uint16_t baud);
+// #if ARDUINO >= 100
+//   Adafruit_Fingerprint(SoftwareSerial *);
+// #else
+//   Adafruit_Fingerprint(NewSoftSerial *);
+// #endif
+  Adafruit_Fingerprint();
+  // void begin(uint16_t baud);
 
   boolean verifyPassword(void);
   uint8_t getImage(void);
@@ -99,12 +101,13 @@ class Adafruit_Fingerprint {
 
   uint16_t fingerID, confidence, templateCount;
 
- private: 
+ private:
   uint32_t thePassword;
   uint32_t theAddress;
-#if ARDUINO >= 100
-  SoftwareSerial *mySerial;
-#else
-  NewSoftSerial *mySerial;
-#endif
+// #if ARDUINO >= 100
+//   SoftwareSerial *mySerial;
+// #else
+//   NewSoftSerial *mySerial;
+// #endif
+  // AltSoftSeriall;
 };

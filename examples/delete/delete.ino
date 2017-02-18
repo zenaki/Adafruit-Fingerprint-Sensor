@@ -1,48 +1,49 @@
-/*************************************************** 
+/***************************************************
   This is an example sketch for our optical Fingerprint sensor
 
-  Designed specifically to work with the Adafruit BMP085 Breakout 
+  Designed specifically to work with the Adafruit BMP085 Breakout
   ----> http://www.adafruit.com/products/751
 
-  These displays use TTL Serial to communicate, 2 pins are required to 
+  These displays use TTL Serial to communicate, 2 pins are required to
   interface
-  Adafruit invests time and resources providing this open source code, 
-  please support Adafruit and open-source hardware by purchasing 
+  Adafruit invests time and resources providing this open source code,
+  please support Adafruit and open-source hardware by purchasing
   products from Adafruit!
 
-  Written by Limor Fried/Ladyada for Adafruit Industries.  
+  Written by Limor Fried/Ladyada for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#include <Adafruit_Fingerprint.h>
-#if ARDUINO >= 100
- #include <SoftwareSerial.h>
-#else
- #include <NewSoftSerial.h>
-#endif
+// #include <Adafruit_Fingerprint.h>
+// #if ARDUINO >= 100
+//  #include <SoftwareSerial.h>
+// #else
+//  #include <NewSoftSerial.h>
+// #endif
 
 uint8_t getFingerprintEnroll(uint8_t id);
 
 
-// pin #2 is IN from sensor (GREEN wire)
-// pin #3 is OUT from arduino  (WHITE wire)
-#if ARDUINO >= 100
-SoftwareSerial mySerial(2, 3);
-//#define mySerial Serial1
-#else
-NewSoftSerial mySerial(2, 3);
-#endif
+// // pin #2 is IN from sensor (GREEN wire)
+// // pin #3 is OUT from arduino  (WHITE wire)
+// #if ARDUINO >= 100
+// SoftwareSerial mySerial(2, 3);
+// //#define mySerial Serial1
+// #else
+// NewSoftSerial mySerial(2, 3);
+// #endif
 
-  Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
+  Adafruit_Fingerprint finger = Adafruit_Fingerprint();
 
-void setup()  
+void setup()
 {
   Serial.begin(9600);
   Serial.println("Delete Finger");
 
   // set the data rate for the sensor serial port
-  finger.begin(57600);
-  
+  // finger.begin(57600);
+  Serial1.begin(57600);
+
   if (finger.verifyPassword()) {
     Serial.println("Found fingerprint sensor!");
   } else {
@@ -64,13 +65,13 @@ void loop()                     // run over and over again
   }
   Serial.print("deleting ID #");
   Serial.println(id);
-  
+
   deleteFingerprint(id);
 }
 
 uint8_t deleteFingerprint(uint8_t id) {
   uint8_t p = -1;
-  
+
   p = finger.deleteModel(id);
 
   if (p == FINGERPRINT_OK) {
@@ -87,5 +88,5 @@ uint8_t deleteFingerprint(uint8_t id) {
   } else {
     Serial.print("Unknown error: 0x"); Serial.println(p, HEX);
     return p;
-  }   
+  }
 }
